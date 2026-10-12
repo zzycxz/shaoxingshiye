@@ -65,7 +65,7 @@ shaoxingshiye/
 │   └── practical/             # 00–22: scenario guides + drills, skeletons, register calibration & personal affairs
 └── scripts/
     ├── memory_store.py         # Consent-gated local long-term memory (SQLite)
-    ├── skill_plug.sh           # Dynamic plug/unplug for FreeCodeZ & Codex
+    ├── skill_plug.sh           # Dynamic plug/unplug for ZCode, Codex & Claude Code
     └── validate_skill.py      # Integrity self-check (regression markers, links, placeholders, token budget)
 ```
 
@@ -79,19 +79,19 @@ The knowledge base holds **164 references** (50 core picks: LMX, paternalistic l
 
 ## Install & use (dynamic plug/unplug)
 
-This skill follows the open Agent Skills standard (agentskills.io) and works natively in FreeCodeZ and OpenAI Codex. **Not installed by default** — mount it when needed, unmount when done:
+This skill follows the open Agent Skills standard (agentskills.io) and works natively in ZCode, OpenAI Codex, and Claude Code. **Not installed by default** — mount it when needed, unmount when done:
 
 ```bash
-scripts/skill_plug.sh on       # Mount at ~/.agents/skills (recognized by FreeCodeZ and Codex)
+scripts/skill_plug.sh on       # Mount at ~/.agents/skills (recognized by ZCode, Codex and Claude Code)
 scripts/skill_plug.sh off      # Unmount
 scripts/skill_plug.sh status   # Show mount status
-scripts/skill_plug.sh on --root freecodez   # Mount at FreeCodeZ's own root ~/.freecodez/skills
+scripts/skill_plug.sh on --root claude      # Mount at Claude Code's own root ~/.claude/skills
 scripts/skill_plug.sh on --root zcode       # Mount at ZCode's own root ~/.zcode/skills
 ```
 
-Note: mount only one root at a time — FreeCodeZ does not deduplicate same-named skills across roots (path is identity), so a double mount would show up twice; the script refuses it. Skill lists are scanned when a session starts, so mounting/unmounting takes effect in new sessions; already-discovered skills can be temporarily disabled via the Settings → skills toggles.
+Note: mount only one root at a time — hosts do not deduplicate same-named skills across roots (path is identity), so a double mount would show up twice; the script refuses it. Skill lists are scanned when a session starts, so mounting/unmounting takes effect in new sessions; already-discovered skills can be temporarily disabled via the Settings → skills toggles.
 
-Invocation (same across FreeCodeZ desktop/web/terminal and Codex): just describe your problem and the description auto-matches; or type `$` in the input box to pick from the skills panel; or write `/shaoxingshiye` in your message. `agents/openai.yaml` provides the display name and default prompt for the ChatGPT desktop app. Assistants that follow the SKILL.md standard (Claude Code etc.) work too — just place a copy in their skill directory.
+Invocation (same across ZCode desktop/web/terminal and Codex): just describe your problem and the description auto-matches; or type `$` in the input box to pick from the skills panel; or write `/shaoxingshiye` in your message. `agents/openai.yaml` provides the display name and default prompt for the ChatGPT desktop app. Assistants that follow the SKILL.md standard (Claude Code etc.) work too — just place a copy in their skill directory.
 
 Then start a session and say:
 
