@@ -1,4 +1,4 @@
-<!-- README_EN · synced with README v1.2 · 2026-10-10 -->
+<!-- README_EN · synced with README v1.3 · 2026-10-12 -->
 
 <p align="center">
   <a href="./README.md">简体中文</a> · <strong>English</strong>
@@ -73,7 +73,7 @@ The knowledge base holds **164 references** (50 core picks: LMX, paternalistic l
 
 <p align="center">
   <a href="./assets/skill-overview.png">
-    <img src="./assets/skill-overview.png" width="100%" alt="Shaoxingshiye capability overview: 9 knowledge files, 19 practical guides, 3 scripts and the five-step analysis flow">
+    <img src="./assets/skill-overview.png" width="100%" alt="Shaoxingshiye capability overview: 9 knowledge files, 23 practical guides, 3 scripts and the five-step analysis flow">
   </a>
 </p>
 
@@ -82,16 +82,17 @@ The knowledge base holds **164 references** (50 core picks: LMX, paternalistic l
 This skill follows the open Agent Skills standard (agentskills.io) and works natively in ZCode, OpenAI Codex, and Claude Code. **Not installed by default** — mount it when needed, unmount when done:
 
 ```bash
-scripts/skill_plug.sh on       # Mount at ~/.agents/skills (recognized by ZCode, Codex and Claude Code)
+scripts/skill_plug.sh on       # Mount at ~/.agents/skills (recognized by ZCode and Codex; Claude Code uses its own root below)
 scripts/skill_plug.sh off      # Unmount
 scripts/skill_plug.sh status   # Show mount status
 scripts/skill_plug.sh on --root claude      # Mount at Claude Code's own root ~/.claude/skills
+scripts/skill_plug.sh on --copy         # Whitelist-copy mode: copies the runtime (SKILL/references/scripts etc.) instead of symlinking the whole repo
 scripts/skill_plug.sh on --root zcode       # Mount at ZCode's own root ~/.zcode/skills
 ```
 
 Note: mount only one root at a time — hosts do not deduplicate same-named skills across roots (path is identity), so a double mount would show up twice; the script refuses it. Skill lists are scanned when a session starts, so mounting/unmounting takes effect in new sessions; already-discovered skills can be temporarily disabled via the Settings → skills toggles.
 
-Invocation (same across ZCode desktop/web/terminal and Codex): just describe your problem and the description auto-matches; or type `$` in the input box to pick from the skills panel; or write `/shaoxingshiye` in your message. `agents/openai.yaml` provides the display name and default prompt for the ChatGPT desktop app. Assistants that follow the SKILL.md standard (Claude Code etc.) work too — just place a copy in their skill directory.
+On Windows, run the script via Git Bash or WSL, or manually copy SKILL.md, agents, references, scripts and assets into a skill directory. Invocation (same across ZCode desktop/web/terminal and Codex): just describe your problem and the description auto-matches; or type `$` in the input box to pick from the skills panel; or write `/shaoxingshiye` in your message. `agents/openai.yaml` provides the display name and default prompt for the ChatGPT desktop app. Assistants that follow the SKILL.md standard (Claude Code etc.) work too — just place a copy in their skill directory.
 
 Then start a session and say:
 

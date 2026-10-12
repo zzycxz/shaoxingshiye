@@ -4,7 +4,7 @@
 # 挂卸后在新会话生效；已发现技能可在设置→skills 面板用开关临时停用。
 #
 # 用法:
-#   scripts/skill_plug.sh on [--root agents|zcode|claude]  挂载（默认 agents：ZCode、Codex 与 Claude Code 都识别）
+#   scripts/skill_plug.sh on [--root agents|zcode|claude] [--copy]  挂载（默认 agents；--copy 复制白名单运行时而非软链整仓）
 #   scripts/skill_plug.sh off                           卸载（清除全部根上的挂载）
 #   scripts/skill_plug.sh status                        查看各根挂载状态
 #
@@ -52,17 +52,20 @@ entry_state() {
     else
       echo "linked_elsewhere"
     fi
+  elif [ -f "$entry/.plug-copy" ]; then
+    echo "copied_here"
   else
     echo "real_entry"
   fi
 }
 
 cmd_on() {
-  local target="agents"
+  local target="agents" use_copy="no"
   while [ $# -gt 0 ]; do
     case "$1" in
       --root) target="$2"; shift 2 ;;
-      *) echo "用法: skill_plug.sh on [--root agents|zcode|claude]" >&2; exit 1 ;;
+      --copy) use_copy="yes"; shift ;;
+      *) echo "用法: skill_plug.sh on [--root agents|zcode|claude] [--copy]" >&2; exit 1 ;;
     esac
   done
   local dest root state
@@ -70,7 +73,7 @@ cmd_on() {
 
   for root in zcode claude agents; do
     state="$(entry_state "$(root_path "$root")")"
-    if [ "$root" != "$target" ] && [ "$state" = "linked_here" ]; then
+    if [ "$root" != "$target" ] && { [ "$state" = "linked_here" ] || [ "$state" = "copied_here" ]; }; then
       echo "错误: 已挂在 $(root_path "$root")——各平台多根不去重或互相遮蔽，会列两次。先 off 再 on --root $target" >&2
       exit 1
     fi
@@ -81,8 +84,25 @@ cmd_on() {
   done
 
   mkdir -p "$dest"
-  if [ "$(entry_state "$dest")" = "linked_here" ]; then
+  local state_now; state_now="$(entry_state "$dest")"
+  if [ "$state_now" = "linked_here" ]; then
     echo "已挂载: $dest/$SKILL_NAME -> $SKILL_DIR"
+    return 0
+  fi
+  if [ "$state_now" = "copied_here" ]; then
+    echo "已挂载（副本）: $dest/$SKILL_NAME"
+    return 0
+  fi
+  if [ "$use_copy" = "yes" ]; then
+    mkdir -p "$dest/$SKILL_NAME"
+    for item in SKILL.md agents references scripts assets; do
+      [ -e "$SKILL_DIR/$item" ] && cp -R "$SKILL_DIR/$item" "$dest/$SKILL_NAME/"
+    done
+    printf 'source=%s
+date=%s
+' "$SKILL_DIR" "$(date +%F)" > "$dest/$SKILL_NAME/.plug-copy"
+    echo "挂载完成（白名单副本）: $dest/${SKILL_NAME}（源 ${SKILL_DIR}）"
+    echo "提示: skill 列表在会话启动时扫描，新会话生效。"
     return 0
   fi
   ln -s "$SKILL_DIR" "$dest/$SKILL_NAME"
@@ -99,6 +119,11 @@ cmd_off() {
       linked_here)
         rm "$dest/$SKILL_NAME"
         echo "已卸载: $dest/$SKILL_NAME"
+        removed=1
+        ;;
+      copied_here)
+        rm -rf "$dest/$SKILL_NAME"
+        echo "已卸载（副本）: $dest/$SKILL_NAME"
         removed=1
         ;;
       linked_elsewhere)
@@ -118,6 +143,7 @@ cmd_status() {
     state="$(entry_state "$dest")"
     case "$state" in
       linked_here) marker="✅ 已挂载" ;;
+      copied_here) marker="✅ 已挂载（副本）" ;;
       linked_elsewhere) marker="⚠️  被同名软链占用（指向别处）" ;;
       real_entry) marker="⚠️  被同名真实目录占用" ;;
       missing) marker="— 未挂载" ;;

@@ -1,4 +1,4 @@
-<!-- README v1.2 · 2026-10-10 -->
+<!-- README v1.3 · 2026-10-12 -->
 
 <p align="center">
   <strong>简体中文</strong> · <a href="./README_EN.md">English</a>
@@ -76,7 +76,7 @@ shaoxingshiye/
 
 <p align="center">
   <a href="./assets/skill-overview.png">
-    <img src="./assets/skill-overview.png" width="100%" alt="绍兴师爷能力总览：知识库9份、实操19份、脚本3件与五步分析流程">
+    <img src="./assets/skill-overview.png" width="100%" alt="绍兴师爷能力总览：知识库9份、实操23份、脚本3件与五步分析流程">
   </a>
 </p>
 
@@ -85,16 +85,17 @@ shaoxingshiye/
 本 skill 遵循开放 Agent Skills 标准（agentskills.io），ZCode、OpenAI Codex 与 Claude Code 原生支持。**默认不安装**——需要时挂载，用完卸载：
 
 ```bash
-scripts/skill_plug.sh on       # 挂载到 ~/.agents/skills（ZCode、Codex 与 Claude Code 都识别）
+scripts/skill_plug.sh on       # 挂载到 ~/.agents/skills（ZCode 与 Codex 识别；Claude Code 用下行专属根）
 scripts/skill_plug.sh off      # 卸载
 scripts/skill_plug.sh status   # 查看挂载状态
 scripts/skill_plug.sh on --root claude      # 换挂 Claude Code 专属根 ~/.claude/skills
+scripts/skill_plug.sh on --copy         # 白名单副本模式：复制运行时（SKILL/references/scripts 等）而非软链整仓
 scripts/skill_plug.sh on --root zcode       # 换挂 ZCode 专属根 ~/.zcode/skills
 ```
 
 注意：同一时间只挂一个根——各宿主合并多个 skill 根时不做同名去重（路径即身份），双挂会在列表里出现两次；脚本会拒绝双挂。skill 列表在会话启动时扫描，挂卸后新会话生效；已发现的技能可在设置 → skills 面板用开关临时停用。
 
-调用方式（ZCode 桌面/网页/终端与 Codex 一致）：直接描述问题，由 description 自动匹配加载；或在输入框敲 `$` 从面板选择技能；或在消息里写 `/shaoxingshiye`。`agents/openai.yaml` 提供 ChatGPT 桌面端的展示名称与默认提示词。其他支持 SKILL.md 标准的助手同理，放一份到各自的 skill 目录即可。
+Windows 用户可用 Git Bash 或 WSL 运行上述脚本，或手动把 SKILL.md、agents、references、scripts、assets 复制到 skill 目录。调用方式（ZCode 桌面/网页/终端与 Codex 一致）：直接描述问题，由 description 自动匹配加载；或在输入框敲 `$` 从面板选择技能；或在消息里写 `/shaoxingshiye`。`agents/openai.yaml` 提供 ChatGPT 桌面端的展示名称与默认提示词。其他支持 SKILL.md 标准的助手同理，放一份到各自的 skill 目录即可。
 
 新开会话后直接说：
 
