@@ -50,6 +50,7 @@ REQUIRED_PRACTICAL = (
     "19-拒绝与摊派：体面说不与守边界.md",
     "20-请假、婚育与个人事务.md",
     "21-办公IM适配：企业微信、飞书与钉钉.md",
+    "22-语体校准：口语与正式话术.md",
 )
 
 RED_LINE_PATTERNS = (
@@ -80,6 +81,7 @@ REGRESSION_MARKERS = (
     "自伤/自杀风险优先于一切",
     "12356",
     "一律不设计、不代拟并劝阻",
+    "像人说话",
 )
 
 # 关键模块必须留在 SKILL.md 的路由表里，防止按需加载链路断掉。
@@ -91,6 +93,7 @@ REQUIRED_ROUTES = (
     "references/practical/19-拒绝与摊派：体面说不与守边界.md",
     "references/practical/20-请假、婚育与个人事务.md",
     "references/practical/21-办公IM适配：企业微信、飞书与钉钉.md",
+    "references/practical/22-语体校准：口语与正式话术.md",
 )
 
 

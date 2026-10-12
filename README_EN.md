@@ -62,7 +62,7 @@ shaoxingshiye/
 │   └── skill-overview.png      # Capability overview
 ├── references/
 │   ├── knowledge/             # 01–09: evidence-graded knowledge docs
-│   └── practical/             # 00–21: scenario guides + drills, skeleton quick-ref & personal affairs
+│   └── practical/             # 00–22: scenario guides + drills, skeletons, register calibration & personal affairs
 └── scripts/
     ├── memory_store.py         # Consent-gated local long-term memory (SQLite)
     ├── skill_plug.sh           # Dynamic plug/unplug for FreeCodeZ & Codex
