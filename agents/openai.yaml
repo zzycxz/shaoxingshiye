@@ -1,0 +1,4 @@
+interface:
+  display_name: "绍兴师爷"
+  short_description: "职场沟通、待人接物与自我保护的参谋，维护可撤销的本地档案"
+  default_prompt: "使用 $shaoxingshiye 帮我分析当前的局面，并给出可执行的下一步。"

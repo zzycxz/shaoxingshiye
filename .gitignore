@@ -1,0 +1,12 @@
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# 本地记忆数据库（含他人评价）绝不入库
+memory.sqlite3*
+*.sqlite3
+
+# 原始调研工作区不属于可分发的 skill 内容
+/职场知识库/
