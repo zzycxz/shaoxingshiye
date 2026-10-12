@@ -19,3 +19,5 @@ jobs:
         run: python3 scripts/validate_skill.py
       - name: Test memory store
         run: python3 scripts/test_memory_store.py
+      - name: Test injection scanner
+        run: python3 scripts/test_injection_scan.py

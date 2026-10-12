@@ -203,6 +203,10 @@ def validate_delta(raw: dict[str, Any]) -> dict[str, Any]:
         raise MemoryErrorWithCode(
             "SOURCE_NOT_ELIGIBLE", "聊天记录等素材的可见事实只能写入事件"
         )
+    if source_type == "records" and not source_ref:
+        raise MemoryErrorWithCode(
+            "SOURCE_REF_REQUIRED", "记录来源的写入必须附 source_ref（引用原文片段），供事后审计"
+        )
     if source_type == "assistant_inference" and scope != "hypothesis":
         raise MemoryErrorWithCode(
             "SOURCE_NOT_ELIGIBLE", "模型推断只能写入带置信度的假设"

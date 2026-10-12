@@ -64,6 +64,17 @@ def main() -> int:
              "source_type": "assistant_inference"}))
         check("来源门禁：推断不能进 event", code == 1 and out["error"]["code"] == "SOURCE_NOT_ELIGIBLE")
 
+        code, out = run("apply", "--json", json.dumps(
+            {"scope": "event", "subject_id": "张总", "field": "关键事件", "value": "会上两次否决方案",
+             "source_type": "records", "occurred_at": "2026-10-12"}))
+        check("取证链：records 无 source_ref 被拒（SOURCE_REF_REQUIRED）",
+              code == 1 and out["error"]["code"] == "SOURCE_REF_REQUIRED")
+
+        code, out = run("apply", "--json", json.dumps(
+            {"scope": "event", "subject_id": "张总", "field": "关键事件", "value": "会上两次否决方案",
+             "source_type": "records", "occurred_at": "2026-10-12", "source_ref": "周会纪要第3条"}))
+        check("取证链：records 带 source_ref 写入成功", code == 0 and out.get("ok") is True)
+
         code, out = run("context", "--subject-id", "张总")
         check("context 返回已写入条目", code == 0 and out.get("count", 0) >= 1)
 
